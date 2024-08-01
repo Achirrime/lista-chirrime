@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import { Footer } from "../components/footer";
 import { Header } from "../components/header";
+import Footer from "../components/footer";
 
 export const Contacts = () => {
   const [name, setName] = useState("");
@@ -19,7 +19,7 @@ export const Contacts = () => {
   return (
     <>
       <Header />
-      <main className="bg-orange-50">
+      <main className="bg-slate-50">
         <h1 className="flex font-semibold text-2xl p-6 items-center justify-center">
           Como podemos ajudar hoje?
         </h1>
@@ -35,7 +35,7 @@ export const Contacts = () => {
               onChange={(e) => setName(e.target.value)}
               required
               placeholder="Digite seu nome"
-              className="mt-1 p-2 block w-full border border-spacing-5 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+              className="mt-1 p-2 block w-full border border-spacing-5 rounded-lg shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
             />
           </div>
           <div className="mb-3">
@@ -49,7 +49,7 @@ export const Contacts = () => {
               onChange={(e) => setEmail(e.target.value)}
               required
               placeholder="Digite seu email"
-              className="mt-1 p-2 block w-full border border-spacing-5 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+              className="mt-1 p-2 block w-full border border-spacing-5 rounded-lg shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
             />
           </div>
           <div className="mb-3">
@@ -63,12 +63,12 @@ export const Contacts = () => {
               rows={4}
               required
               placeholder="Digite sua mensagem"
-              className="mt-1 p-2 block w-full border border-spacing-5 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+              className="mt-1 p-2 block w-full border border-spacing-5 rounded-lg shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
             />
           </div>
           <button
             type="submit"
-            className="flex items-center mb-0 mt-4 px-4 py-2 p-10 border border-transparent text-lg font-medium rounded-full text- bg-sky-700 hover:bg-slate-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+            className="flex items-center mb-4 mt-4 px-20 py-2 p-10 border border-transparent text-lg font-medium rounded-full text- bg-teal-300 hover:bg-cyan-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
           >
             Enviar
           </button>

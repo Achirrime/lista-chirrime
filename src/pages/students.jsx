@@ -1,9 +1,9 @@
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Header } from '../components/header';
-import { Footer } from '../components/footer';
 import { students } from '../data//students';
 import { FaPlusCircle, FaTrash } from 'react-icons/fa';
+import Footer from '../components/footer';
 
 
 export const Students = () => {
@@ -21,20 +21,20 @@ export const Students = () => {
     }
   }
   const addStudent = (studentData) => {
-    // Implement logic to add a new student
+    
     console.log("Adding student:", studentData);
   };
 
   const deleteStudent = (studentId) => {
-    // Implement logic to delete a student
+    
     console.log("Deleting student with ID:", studentId);
   };
   const studentRows = students.reduce((rows, student, index) => {
-    const rowIndex = Math.floor(index / 4); // Calculate row index based on student position
+    const rowIndex = Math.floor(index / 4); 
     if (!rows[rowIndex]) {
-      rows[rowIndex] = []; // Create a new row array if it doesn't exist
+      rows[rowIndex] = []; 
     }
-    rows[rowIndex].push(student); // Add student to the current row
+    rows[rowIndex].push(student); 
     return rows;
   }, []);
 
@@ -42,7 +42,7 @@ export const Students = () => {
   return (
     <>
        <Header />
-      <main className="p-6 bg-orange-50">
+      <main className="p-6 bg-slate-50">
         <h1 className="text-2xl font-bold mb-6 text-center">LISTA DE ESTUDANTES</h1>
         <table className="w-full table-fixed border border-spacing-5">
           <tbody>

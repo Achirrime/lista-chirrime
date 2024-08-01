@@ -15,14 +15,14 @@ export const Header = () => {
   }
 
   return (
-  <header className='w-full bg-black text-amber-100 ' >
+  <header className='w-full bg-transparent text-black ' >
 
-          <form onSubmit={handleSearchForm} className="flex   justify-end items-center mr-3">
+          <form onSubmit={handleSearchForm} className="flex  justify-end items-center mr-3">
             <input
               type="search"
               name="search"
               placeholder="Procurar um nome"
-              className="px-3 py-1 w-96 focus:outline-none mt-9 ml-2"
+              className="px-3 py-1 w-96 focus:outline-none border border-slate-800 rounded-lg  mt-9 ml-2"
 
             />
           
