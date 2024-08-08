@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Circle, ArrowLeft, ArrowRight } from "@phosphor-icons/react";
+import { Circle } from "@phosphor-icons/react";
 import Img1 from "./assets/Img1.jpg";
 import Img3 from "./assets/Img3.jpg";
 import Img4 from "./assets/Img4.jpg";
@@ -16,23 +16,19 @@ export const Slider = () => {
    
     {
       src: Img3,
-      text: "Encontre o teu nome na lista.",
+     
     },
     {
       src: Img4,
-      text: "Pesquise por um nome.",
     },
     {
       src: Img5,
-      text: "Adicione nomes na lista.",
     },
     {
       src: Img6,
-      text: "Elimine nomes.",
     },
     {
       src: Img7,
-      text: "Edite nomes na lista.",
     },
   ];
 
