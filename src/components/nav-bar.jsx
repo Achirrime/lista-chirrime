@@ -2,19 +2,35 @@ import { NavLink } from "react-router-dom";
 
 export const NavBar = () => {
     return (
-        <nav className="flex justify-between ml-4 h-16 p-1 -mt-10">
+        <nav className="flex justify-end items-center h-16 p-1">
             <ul className="flex space-x-16 font-bold text-2xl">
                 <li>
-                    <NavLink to="/" >Home</NavLink>
+                    <NavLink 
+                        to="/" 
+                        className={({ isActive }) => isActive ? "text-teal-600" : "text-cyan-400"}
+                    >
+                        
+                    </NavLink>
                 </li>
                 <li>
-                    <NavLink to="/students">Estudantes</NavLink>
+                    <NavLink 
+                        to="/students"
+                        className={({ isActive }) => isActive ? "text-teal-500" : "text-cyan-400"}
+                    >
+                        Estudantes
+                    </NavLink>
                 </li>
                 <li>
-                    <NavLink to="/contacts">Contatos</NavLink>
+                    <NavLink 
+                        to="/contacts"
+                        className={({ isActive }) => isActive ? "text-teal-500" : "text-cyan-400"}
+                    >
+                        Contatos
+                    </NavLink>
                 </li>
             </ul>
         </nav>
     );
 }
-export default NavLink;
+
+export default NavBar;

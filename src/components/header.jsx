@@ -1,12 +1,11 @@
-
 import React from 'react';
-import { useSearchParams } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { NavBar } from './nav-bar';
-
-
+import { Graph } from '@phosphor-icons/react';
 
 export const Header = () => {
-  const [searchParams, setSearchParams] = useSearchParams();
+  const navigate = useNavigate();
+  const location = useLocation();
 
   function handleSearchForm(e) {
     e.preventDefault();
@@ -14,23 +13,23 @@ export const Header = () => {
     setSearchParams({ search: searchString });
   }
 
+  const handleIconClick = () => {
+    if (location.pathname !== '/') {
+      navigate('/');
+    }
+  };
+
   return (
-  <header className='w-full bg-transparent text-black ' >
-
-          <form onSubmit={handleSearchForm} className="flex  justify-end items-center mr-3">
-            <input
-              type="search"
-              name="search"
-              placeholder="Procurar um nome"
-              className="px-3 py-1 w-96 focus:outline-none border border-slate-800 rounded-lg  mt-9 ml-2"
-
-            />
-          
-         
-          </form>
-          <section>
-            <NavBar/>
-          </section>
-  </header>
+    <header className="w-full bg-transparent text-cyan-400 relative flex items-center justify-between p-4">
+      <Graph 
+        size={29} 
+        onClick={handleIconClick} 
+        className="cursor-pointer" 
+      />
+      
+      <section className="ml-auto">
+        <NavBar />
+      </section>
+    </header>
   );
 };

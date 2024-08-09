@@ -5,12 +5,13 @@ export default {
     "./src/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
-    coolors: {
-      "green-100": "#affc41",
-      "gray-100": "#e1e5f2",
+    extend: {
+      colors: {
+        'green-100': '#affc41',
+        'gray-100': '#e1e5f2',
+        'bg-green-150': '#93acb5',
+      },
     },
-    extend: {},
   },
   plugins: [],
 }
-
