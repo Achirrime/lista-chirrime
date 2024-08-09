@@ -1,9 +1,15 @@
-import React, { useState } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import React, { useState, useRef } from 'react';
 import { students as initialStudents } from '../data/students';
 import { Header } from '../components/header';
 import Footer from '../components/footer';
-import { Trash } from '@phosphor-icons/react';
+import { Plus, Trash } from '@phosphor-icons/react';
+import { v4 as uuidv4 } from 'uuid';
+
+// Função para gerar URL de imagem com base no nome
+const generateAvatarUrl = (name) => {
+  // Usando Random User Generator para obter fotos reais
+  return `https://randomuser.me/api/portraits/med/men/${Math.floor(Math.random() * 100)}.jpg`;
+};
 
 export const Students = () => {
   const [students, setStudents] = useState(initialStudents);
@@ -14,11 +20,11 @@ export const Students = () => {
     idade: '',
     genero: '',
     descricao: '',
-    linkUrl: '', 
+    linkUrl: '',
   });
+  const [expandedStudentId, setExpandedStudentId] = useState(null);
 
-  const location = useLocation();
-  const searchParams = new URLSearchParams(location.search);
+  const formRef = useRef(null); // Ref para o formulário de adicionar estudante
 
   const handleSearchChange = (event) => {
     setSearchString(event.target.value);
@@ -31,7 +37,7 @@ export const Students = () => {
         ...students,
         {
           ...newStudent,
-          id: Date.now(), 
+          id: uuidv4(), // Generate a unique ID
         },
       ]);
       setNewStudent({
@@ -49,6 +55,10 @@ export const Students = () => {
     setStudents(students.filter(student => student.id !== studentId));
   };
 
+  const handleToggleExpand = (studentId) => {
+    setExpandedStudentId(expandedStudentId === studentId ? null : studentId);
+  };
+
   const filteredStudents = students.filter(student => {
     return (
       student.linkLabel.toLowerCase().includes(searchString.toLowerCase()) ||
@@ -57,67 +67,94 @@ export const Students = () => {
     );
   });
 
-  const studentRows = filteredStudents.reduce((rows, student, index) => {
-    const rowIndex = Math.floor(index / 4);
-    if (!rows[rowIndex]) {
-      rows[rowIndex] = [];
+  // Função para rolar para o formulário
+  const scrollToForm = () => {
+    if (formRef.current) {
+      formRef.current.scrollIntoView({ behavior: 'smooth' });
     }
-    rows[rowIndex].push(student);
-    return rows;
-  }, []);
+  };
 
   return (
     <>
       <Header />
-      <main className="p-6 bg-slate-50">
-        <h1 className="text-2xl font-bold mb-6 text-center">LISTA DE ESTUDANTES</h1>
+      <main className="p-6 bg-transparent relative">
 
-        <div className="mb-4">
+        {/* Ícone de Adicionar Novo Estudante */}
+        <button
+          onClick={scrollToForm}
+          className="fixed top-4 left-4 bg-blue-500 text-white flex items-center gap-2 p-2 rounded-full shadow-lg"
+        >
+          <Plus size={24} />
+          <span>Novo</span>
+        </button>
+
+        {/* Barra de Pesquisa */}
+        <div className="mb-4 flex justify-center">
           <input
             type="text"
             placeholder="Pesquisar por nome, idade, gênero..."
             value={searchString}
             onChange={handleSearchChange}
-            className="p-2 border border-gray-300 rounded"
+            className="p-2 border border-gray-300 rounded w-full sm:w-80"
           />
         </div>
 
-        <table className="w-full table-fixed border border-spacing-5">
-          <tbody>
-            {studentRows.map((row, rowIndex) => (
-              <tr key={rowIndex} className="border-spacing-5 border-stone-50">
-                {row.map((student, colIndex) => (
-                  <td key={`${rowIndex}-${colIndex}`} className="p-1 border-solid border-stone-50">
-                    <div className="flex justify-between items-center">
-                      <div>
-                        <p className="font-bold">{student.linkLabel}</p>
-                        <p className="text-gray-600">{student.email}</p>
+        {/* Tabela */}
+        <div className="overflow-x-auto">
+          <div className="mx-auto max-w-3xl">
+            <table className="table-auto w-full bg-blue-950 text-white">
+              
+              <tbody>
+                {filteredStudents.map((student, index) => (
+                  <tr key={student.id} className="bg-blue-400 border-b border-blue-300">
+                    <td className="p-2 text-center">{index + 1}</td>
+                    <td className="p-2">
+                      <div className="avatar">
+                        <div className="mask mask-squircle h-12 w-12">
+                          <img
+                            src={generateAvatarUrl(student.linkLabel)}
+                            alt={student.linkLabel}
+                            onError={(e) => e.target.src = 'https://via.placeholder.com/150'}
+                          />
+                        </div>
                       </div>
-                      <div>
-                        <Link
-                          to={`/students/${encodeURIComponent(student.linkUrl.toLowerCase())}`}
-                          className="block mt-2 text-blue-500 hover:underline"
-                        >
-                          {student.descricao}
-                        </Link>
-                        <button
-                          className="text-white px-3 py-1 rounded bg-red-700 hover:bg-red-800 ml-2"
-                          onClick={() => handleDeleteStudent(student.id)}
-                        >
-                          <Trash />
-                        </button>
+                    </td>
+                    <td className="p-2">
+                      <div
+                        className="font-bold cursor-pointer"
+                        onClick={() => handleToggleExpand(student.id)}
+                      >
+                        {student.linkLabel}
                       </div>
-                    </div>
-                    <p>{student.descricao}</p>
-                  </td>
+                    </td>
+                    <td colSpan="2">
+                      {expandedStudentId === student.id && (
+                        <div className="p-2 border-t border-blue-300 bg-blue-200 text-blue-900">
+                          <p><strong>Email:</strong> {student.email}</p>
+                          <p><strong>Idade:</strong> {student.idade}</p>
+                          <p><strong>Gênero:</strong> {student.genero}</p>
+                          <p><strong>Descrição:</strong> {student.descricao}</p>
+                        </div>
+                      )}
+                    </td>
+                    <td className="p-2 text-center">
+                      <button
+                        className="btn btn-ghost btn-xs text-white"
+                        onClick={() => handleDeleteStudent(student.id)}
+                      >
+                        <Trash />
+                      </button>
+                    </td>
+                  </tr>
                 ))}
-              </tr>
-            ))}
-          </tbody>
-        </table>
+              </tbody>
+            </table>
+          </div>
+        </div>
 
-        <form onSubmit={handleAddStudent} className="mt-6">
-          <h2 className="text-xl font-bold mb-4">Novo Estudante</h2>
+        {/* Formulário para Adicionar Novo Estudante */}
+        <form ref={formRef} onSubmit={handleAddStudent} className="mt-6 mx-auto max-w-lg p-4 bg-white shadow-md rounded">
+          <h2 className="text-xl font-bold mb-4">Adicionar Novo Estudante</h2>
           <div className="mb-2">
             <input
               type="text"
